@@ -1,0 +1,187 @@
+<div class="container-fluid">
+	<div class="main-content">
+		<div class="row">
+			<div class="col-sm">
+				<h2 class="main-title">Module de l'informatique : offre des cours</h2>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm">
+				<h2 class="main-title">{{titre.minSaison}} {{titre.minAnnee}} - {{titre.maxSaison}} {{titre.maxAnnee}}</h2>
+				<a routerLink="/cours" routerLinkActive="active">Ajout Cours</a><br/>
+				<a routerLink="/programme" routerLinkActive="active">Page Programme</a><br/>
+				<a routerLink="/ajout-programme" routerLinkActive="active">Ajout Programme</a>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="container main-table-search">
+				<form [formGroup]="searchForm" class="row main-table-search-container" (ngSubmit)="search()">
+					
+					<h3 class="col-sm-12 main-table-search-title">Recherche...</h3>
+					
+				    <div class="col-sm-6 main-table-search-nom">
+						<label>
+							Nom:
+							<input type="text" class="form-control" formControlName="nom">
+						</label>
+					</div>
+						
+					<div class="col-sm-6 main-table-search-sigle">
+						<label>
+							Sigle:
+							<input type="text" class="form-control" formControlName="sigle">
+						</label>
+					</div>
+						
+					<div class="col-sm-12 main-table-search-programmes">
+						<label>
+							Programmes: 
+							<select class="form-control" formControlName="programmes">
+								<option *ngFor="let programme of listeProgrammes" value="{{programme.sigle}}">{{ programme.nom }}</option>
+							</select>
+						</label>
+					</div>
+					
+					<div class="col-sm-12 main-table-search-submit">
+						<button type="submit" class="btn btn-primary">Recherche</button>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+		
+		
+		<div class="row row-table row-header-fixed" *ngIf="tableHeaderFixed">
+			<div class="col-sm-12">
+				<div class="row">
+					<div class="col-sm-4 col-empty">&nbsp;</div>
+					<div class="col-sm-8 col-trimestre">
+						<div class="row row-header-annee">
+							<div class="col-sm" *ngFor="let annee of trimestresAnnee">{{ annee }}</div>
+						</div>
+						<div class="trimestre-btn trimestre-btn-before btn btn-primary" (click)="setTrimestresAnnee(maxAnnee-1)">&lt;</div>
+						<div class="trimestre-btn trimestre-btn-after btn btn-primary" (click)="setTrimestresAnnee(maxAnnee+1)">&gt;</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="row row-header-cours">
+							<div class="col-sm-2">Sigle</div>
+							<div class="col-sm-6">Titre</div>
+							<div class="col-sm-4">Programmes</div>
+						</div>
+					</div>
+					<div class="col-sm-8 col-trimestre">
+						<div class="row row-header-saison">
+							<ng-container *ngFor="let annee of trimestresAnnee">
+								<div class="col-sm">H</div>
+								<div class="col-sm">E</div>
+								<div class="col-sm">A</div>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row row-table">
+			<!-- Header -->
+			<div class="col-sm-12">
+				<div class="row">
+					<div class="col-sm-4 col-empty">&nbsp;</div>
+					<div class="col-sm-8 col-trimestre">
+						<div class="row row-header-annee">
+							<div class="col-sm" *ngFor="let annee of trimestresAnnee">{{ annee }}</div>
+						</div>
+						<div class="trimestre-btn trimestre-btn-before btn btn-primary" (click)="setTrimestresAnnee(maxAnnee-1)">&lt;</div>
+						<div class="trimestre-btn trimestre-btn-after btn btn-primary" (click)="setTrimestresAnnee(maxAnnee+1)">&gt;</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="row row-header-cours">
+							<div class="col-sm-2">Sigle</div>
+							<div class="col-sm-6">Titre</div>
+							<div class="col-sm-4">Programmes</div>
+						</div>
+					</div>
+					<div class="col-sm-8 col-trimestre">
+						<div class="row row-header-saison">
+							<ng-container *ngFor="let annee of trimestresAnnee">
+								<div class="col-sm">H</div>
+								<div class="col-sm">E</div>
+								<div class="col-sm">A</div>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Body -->
+			<div class="col-sm-12">
+				<div class="row" *ngFor="let cour of cours">
+					<div class="col-sm-4 col-cours">
+						<div class="row">
+							<div class="col-sm-2">
+								<a href="/cours/{{ cour._id }}">{{ cour.sigle }}</a>
+							</div>
+							<div class="col-sm-6">
+								<a href="/cours/COM1193A">{{ cour.nom }}</a>
+							</div>
+							<div class="col-sm-4 cours-programme">
+								<ng-container *ngFor="let programmeSigle of cour.programmes">
+									<a href="/programme/{{ programmeSigle }}" title="{{ getNomProgramme(programmeSigle) }}">{{ programmeSigle }}</a><span class="cours-programme-separateur">, </span>
+								</ng-container>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-sm-8 col-trimestre">
+						<div class="row">
+							<ng-container *ngFor="let annee of trimestresAnnee">
+								<ng-container *ngFor="let saison of trimestresSaisons">
+									<div class="col-sm selected" *ngIf="estDonne(trimestresCours[cour._id], annee, saison)" 
+										(click)="showFormTrimestreModify(trimestresCours[cour._id].idCours, annee, saison, getTrimestreDisplayed(trimestresCours[cour._id], annee, saison))">✓</div>
+									<div class="col-sm" *ngIf="!estDonne(trimestresCours[cour._id], annee, saison)" (click)="showFormTrimestre(trimestresCours[cour._id].idCours, annee, saison)"></div>
+								</ng-container>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-trimestre" *ngIf="displayTrimestre">
+	<div class="modal-trimestre-center container">
+		<div class="modal-trimestre-container">
+			<div class="modal-trimestre-close btn btn-danger" (click)="hideFormTrimestre()">X</div>
+			<form [formGroup]="trimestreForm" (ngSubmit)="addTrimestre()">
+				<h3>Trimestre</h3>
+				
+				<div class="form-group">
+					<label>
+						Professeur:
+						<input type="text" class="form-control" formControlName="professeur">
+					</label>
+				</div>
+				
+				<div class="form-group">
+					<label>
+						Nombre d'étudiants:
+						<input type="text" class="form-control" formControlName="nbEtudiants">
+					</label>
+				</div>
+				
+				<button *ngIf="!trimestreFormModifier" class="btn btn-primary" type="submit">Ajouter</button>
+				<button *ngIf="trimestreFormModifier" class="btn btn-primary" type="submit">Modifier</button>
+				<div *ngIf="trimestreFormModifier" class="btn btn-danger" (click)="retirerTrimestre(true)">Supprimer</div>
+			</form>
+		</div>
+	</div>
+</div>

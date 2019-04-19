@@ -1,0 +1,40 @@
+<div class="container">
+  <h1>Ajout d'un programme</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <form (ngSubmit)="saveProgramme()" #programmeForm="ngForm">
+	  
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="programme.nom" #nom="ngModel" required>
+		  
+		  <div *ngIf="nom.invalid && (nom.dirty || nom.touched)">
+            <div *ngIf="nom.errors.required">
+              <div class="form-error">
+			    Nom est obligatoire.
+			  </div>
+            </div>
+          </div>
+        </div>
+		
+        <div class="form-group">
+          <label for="sigle">Sigle</label>
+          <input type="text" class="form-control" id="sigle" name="sigle" [(ngModel)]="programme.sigle" #sigle="ngModel" required>
+		  
+		  <div *ngIf="sigle.invalid && (sigle.dirty || sigle.touched)">
+            <div *ngIf="sigle.errors.required">
+              <div class="form-error">
+			    Sigle est obligatoire.
+			  </div>
+            </div>
+          </div>
+        </div>
+		
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="!programmeForm.form.valid">Ajouter</button>
+        </div>
+		
+      </form>
+    </div>
+  </div>
+</div>

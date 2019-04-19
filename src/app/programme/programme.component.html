@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Programme List</h1>
+  <a routerLink="/ajout-programme" routerLinkActive="active">Ajout Programme</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Sigle</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let programme of programmes">
+        <td>{{ programme.nom }}</td>
+        <td>{{ programme.sigle }}</td>
+        <td>
+			<a [routerLink]="['/modifier-programme', programme._id]" class="btn btn-success">Modifier</a>
+			<button class="btn btn-danger" type="button" (click)="supprimerProgramme(programme._id)">Supprimer</button>
+		</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

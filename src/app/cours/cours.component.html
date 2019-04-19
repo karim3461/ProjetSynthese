@@ -1,0 +1,92 @@
+
+<div class="container">
+  <h1>Ajouter un cours</h1>
+
+  <form [formGroup]="coursForm" (ngSubmit)="onSubmit()">
+    
+	<div class="form-group">
+      <label>
+        Nom:
+        <input type="text" class="form-control" formControlName="nom" required>
+      </label>
+	  
+	  <div *ngIf="nom.invalid && (nom.dirty || nom.touched)">
+		<div class="form-error" *ngIf="nom.errors.required">
+		  Nom est obligatoire.
+		</div>
+	  </div>
+    </div>
+	
+    <div class="form-group">
+      <label>
+        Sigle:
+        <input type="text" class="form-control" formControlName="sigle" required>
+      </label>
+	  <div *ngIf="sigle.invalid && (sigle.dirty || sigle.touched)">
+	    <div class="form-error" *ngIf="sigle.errors.required">
+	      Sigle est obligatoire.
+	    </div>
+	  </div>
+	  <div class="form-error">{{error.sigle}}</div>
+    </div>
+	
+	<div class="form-group">
+	  <h3>Programmes</h3>
+      <label formArrayName="programmes" *ngFor="let programme of coursForm.controls.programmes.controls; let i = index" style="display: block;">
+	    
+        <input type="checkbox" [formControlName]="i" value="{{programmes[i].sigle}}">
+        {{programmes[i].nom}} ({{programmes[i].sigle}})
+      </label>
+    </div>
+	
+	<div class="form-group" formArrayName="trimestres">
+	  <h3>Trimestres</h3>
+	  
+	  <div class="form-group-trimestres" *ngFor="let trimestre of coursForm.get('trimestres').controls; let i = index">
+	    <div class="form-group-trimestre well" [formGroupName]="i">
+		
+		  <h4>Trimestre {{ i+1 }}</h4>
+		  
+		  <div class="form-group">
+	        <label>
+              Année:
+	          <input type="text" class="form-control" formControlName="annee">
+		    </label>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label>
+              Saison:
+			  <select class="form-control" formControlName="saison">
+				<option *ngFor="let saison of listeSaisons" value="{{saison}}">{{ saison }}</option>
+			  </select>
+		    </label>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label>
+              Professeur:
+	          <input type="text" class="form-control" formControlName="professeur">
+		    </label>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label>
+              Nombre d'étudiants:
+	          <input type="text" class="form-control" formControlName="nbEtudiants">
+		    </label>
+		  </div>
+		  
+		  <div class="btn btn-danger" (click)="removeTrimestre()">Retirer</div>
+		  
+		</div>
+	  </div>
+	  
+	  <div class="btn btn-primary" (click)="addTrimestre()">Ajout Trimestre</div>
+    </div>
+	
+    <button class="btn btn-primary" type="submit" [disabled]="!coursForm.valid">{{texteSubmit}}</button>
+	
+	<div class="btn btn-danger" *ngIf="texteSubmit == 'Modifier'" (click)="supprimerCours()">Supprimer</div>
+  </form>
+</div>

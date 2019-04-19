@@ -1,0 +1,193 @@
+.container{
+	margin-top: 25px;
+	background: #fff;
+}
+
+.main-content{
+	padding: 15px;
+}
+
+.main-title{
+	text-align: center;
+}
+
+.main-table-search{
+	
+	.main-table-search-container{
+	
+		.main-table-search-title{
+			background: #dedede;
+			border-bottom: 1px solid #000;
+			padding-top: 15px;
+			padding-bottom: 5px;
+		}
+		
+		.main-table-search-submit{
+			padding-bottom: 15px;
+		}
+	
+	}
+}
+
+.row-table{
+	position: relative;
+	margin-top: 20px;
+	
+	& > div{
+	
+		& > .row{ /*Rangée*/
+		
+			&.row-empty{
+				background: transparent;
+			}
+		
+			& > div{
+				padding-top: 5px;
+				padding-bottom: 5px;
+				border-bottom: 1px solid #000;
+				min-height: 35px;
+			}
+			
+			& > div.col-trimestre{
+				position: relative;
+				padding: 0;
+				border-left: 3px solid #000;
+				border-right: 3px solid #000;
+				
+				& > .row{ /*Rangée*/
+					margin: 0;
+					height: 100%;
+				
+					& > div{
+						text-align: center;
+						padding-top: 5px;
+						padding-bottom: 5px;
+						min-height: 35px;
+						cursor: pointer;
+					}
+				
+					& > div:nth-child(3n-2){/*Colonne Hiver*/
+						
+					}
+					
+					& > div:nth-child(3n-1){/*Colonne été*/
+						background: rgba(0,0,0,0.05);
+					}
+					
+					& > div:nth-child(3n){  /*Colonne Automne*/
+						border-right: 1px solid #aaa;
+					}
+					
+					& > div.selected{
+						
+					}
+					
+					&.row-header-annee{
+						& > div{/*Colonne Hiver*/
+							background: #eee;
+							border-right: 1px solid #aaa;
+						}
+					}
+					
+					&.row-header-saison > div > div{
+						& > div{/*Colonne Hiver*/
+							background: #eee;
+							border-right: 1px solid #aaa;
+						}
+					}
+					
+					&.row-header-annee > div, &.row-header-saison > div{
+						cursor: default;
+					}
+				}
+			}
+			
+			& > div:nth-child(even){/*Colonne pair*/
+				
+			}
+			
+			& > div:nth-child(odd){/*Colonne impair*/
+				
+			}
+		}
+	
+		& > .row:nth-child(even){ /*Rangée pair*/
+			background: #fafafa;
+		}
+		
+		& > .row:nth-child(odd){ /*Rangée impair*/
+			background: #eee;
+		}
+	}
+	
+	&.row-header-fixed{
+		margin-top: 0;
+		position: fixed;
+		z-index: 100;
+		top: 0;
+		width: calc(100% - 30px);
+	}
+}
+
+.col-cours{
+	.row-header-cours{
+		& > div{
+			text-align: center;
+		}
+	}
+	
+	.cours-programme .cours-programme-separateur:last-child{
+		display: none;
+	}
+}
+
+
+.trimestre-btn{
+	line-height: 22px;
+	position: absolute;
+	top: 0;
+	border-radius: 0;
+	
+	&.trimestre-btn-before{
+		left: 0;
+	}
+	
+	&.trimestre-btn-after{
+		right: 0;
+	}
+}
+
+
+.modal-trimestre{
+	position: fixed;
+	z-index: 1000;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0,0,0,0.75);
+	top: 0;
+	left: 0;
+	
+	.modal-trimestre-center{
+		background: transparent;
+		height: 100vh;
+		padding: 0;
+		margin: 0 auto;
+		position: relative;
+		
+		.modal-trimestre-container{
+			width: 600px;
+			height: 400px;
+			background: rgb(255,255,255);
+			padding: 15px;
+			margin: auto;
+			top: calc(50vh - 200px);
+			position: relative;
+			
+			.modal-trimestre-close{
+				position: absolute;
+				top: 15px;
+				right: 15px;
+			}
+		}
+	}
+}
